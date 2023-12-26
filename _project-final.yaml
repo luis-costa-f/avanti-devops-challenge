@@ -1,0 +1,53 @@
+# Definindo o Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: project-final
+
+# Definindo os Pods dentro do Namespace
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-produtor
+  namespace: project-final
+spec:
+  containers:
+  - name: write
+    image: lu15c05ta/write:1.0
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-consumidor
+  namespace: project-final
+spec:
+  containers:
+  - name: read
+    image: lu15c05ta/read:1.0
+
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-test
+  namespace: project-final
+spec:
+  containers:
+  - name: container-test
+    image: nginx:latest
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-test-2
+  namespace: project-final
+spec:
+  containers:
+  - name: container-test
+    image: nginx:latest

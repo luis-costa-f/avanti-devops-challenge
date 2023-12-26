@@ -5,8 +5,8 @@
 1.1 Instalar os requisitos para a app funcionar (requirements.txt) ✅
 
 2. Criar um cluster k8s com 2 nós<br>
-2.1 2 Nós<br>
-2.2 Instalar algum tipo de dashboard (rancher, k8s dashboard, etc)<br>
+2.1 2 Nós<br>✅
+2.2 Instalar algum tipo de dashboard (rancher, k8s dashboard, etc)<br>✅
 
 3. Criar os manifestos do Kubernetes<br>
 3.1. Prever ambiente de Dev e Prod (kustomize)<br>
@@ -30,6 +30,42 @@
 5.1. Saúde da aplicação<br>
 5.2. Saúde do RabbitMQ<br>
 
+
+
+
+
+----------------------------
+
+1.
+2. para rodar o _project-final.yaml tem criar um cluster 
+para isso tem que instalar o k3d e rodar o comando k3d cluster create nome-cluster
+
+- execute esse comando para dar inicio ao dashboard "kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml"
+
+execute o service "kubernetes-dashboard.yaml"
+
+use o comando "kubectl -n kubernetes-dashboard create token admin-user" para obter
+a chave de acesso do dashboard
+
+
+e execute o comando "kubectl proxy" executar o dashboard 
+
+no endereço "http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/login"
+
+cole o token
+
+
+
+
+
+
+
+
+
+
+caso queira deletar as senhas e os services de do dashboart: => <br />
+"kubectl -n kubernetes-dashboard delete serviceaccount admin-user"<br />
+"kubectl -n kubernetes-dashboard delete clusterrolebinding admin-user"
 
 
 
