@@ -20,7 +20,7 @@
 ✅ 4. Pipeline<br>
 ✅ 4.1. CI (Github Actions)<br>
 ✅ 4.1.1. Checar segurança do código (bandit)<br>
-4.1.2. Checar qualidade do código (pyLint)<br>
+✅ 4.1.2. Checar qualidade do código (pyLint)<br>
 4.1.3. Rodar testes unitários (pyTest)<br>
 4.2. CD  (Github Actions / ArgoCD)<br>
 4.2.1. Gerar a imagem da aplicação (docker hub - imagem pública)<br>
