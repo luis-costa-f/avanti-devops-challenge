@@ -21,10 +21,10 @@
 ✅ 4.1. CI (Github Actions)<br>
 ✅ 4.1.1. Checar segurança do código (bandit)<br>
 ✅ 4.1.2. Checar qualidade do código (pyLint)<br>
-4.1.3. Rodar testes unitários (pyTest)<br>
-4.2. CD  (Github Actions / ArgoCD)<br>
-4.2.1. Gerar a imagem da aplicação (docker hub - imagem pública)<br>
-4.2.2. Deploy no K8S<br>
+✅ 4.1.3. Rodar testes unitários (pyTest)<br>
+✅ 4.2. CD  (Github Actions / ArgoCD)<br>
+✅ 4.2.1. Gerar a imagem da aplicação (docker hub - imagem pública)<br>
+✅ 4.2.2. Deploy no K8S<br>
 
 5. Monitoramento (Prometheus / Grafana / AlertManager)<br>
 5.1. Saúde da aplicação<br>
@@ -73,10 +73,38 @@ pipelines
 
 
 
+para usar o argocd
+
+- kubectl create namespace argocd
+- kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+- kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+
+- rode o comando "kubectl -n argocd get po,svc" procurr o service/argocd-repo-server
+- execute o comando com o nome do service/argocd-server "kubectl -n argocd port-forward service/argocd-server 8080:443"
+
+acesse o endereço localhost:8080 por padrão o user vem como "admin"
+- abra um novo terminal rode o comando "argocd admin initial-password -n argocd" para exibir a senha no terminal, esse comando so vai funcionar se o [argocd cli](https://argo-cd.readthedocs.io/en/stable/cli_installation/) estiver instalado 
+
+- clique em "new app"
+- em Application Name ponha o nome do projeto "Avanti"
+- em Project Name ponha default
+- na SOURCE ponha o endereço do repositorio "https://github.com/luisc05ta/avanti-devops-challenge.git"
+- Em revision escolha o "kustomize/base"
+- na aba DESTINATION coloque no "Cluster URL" o endereço sugerido pela ferramenta e o Namespace coloque "default"
+- por fim aperte em "Create"
+
+![ArgoCD](.images/argocd.png)
+
+
+<br>
+minhas imagens 
+- https://hub.docker.com/repository/docker/lu15c05ta/write/general
+- https://hub.docker.com/repository/docker/lu15c05ta/read/general
 
 caso queira deletar as senhas e os services de do dashboart: => <br />
 "kubectl -n kubernetes-dashboard delete serviceaccount admin-user"<br />
 "kubectl -n kubernetes-dashboard delete clusterrolebinding admin-user"
+
 
 
 
