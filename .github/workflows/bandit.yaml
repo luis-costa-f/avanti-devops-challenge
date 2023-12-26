@@ -1,18 +1,27 @@
-name: Security check - Bandit
+name: Bandit Security Check
 
-on: push
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  build:
+  bandit:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        os: ubuntu-latest
-        python-version: '3.6.10'
 
-    - name: Security check - Bandit
-      uses: ./
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
       with:
-        python_version: ${{ matrix.python-version }}
-        project_path: .
-        ignore_failure: true
+        python-version: 3.x
+
+    - name: Install Dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install bandit
+
+    - name: Run Bandit
+      run: bandit -r -ll -c .bandit .
