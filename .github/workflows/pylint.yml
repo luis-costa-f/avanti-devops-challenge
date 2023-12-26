@@ -27,4 +27,4 @@ jobs:
         pip install pylint
 
     - name: Run Pylint
-      run: pylint **/*.py --disable=C0114,C0115,C0116 .
+      run: pylint **/*.py --ignore-patterns=__init__.py --disable=C0114,C0115,C0116 . 
