@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-pod-produtor
+  namespace: project-final
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pod-produtor
+  template:
+    metadata:
+      labels:
+        app: pod-produtor
+    spec:
+      containers:
+      - name: write
+        image: lu15c05ta/write:1.0

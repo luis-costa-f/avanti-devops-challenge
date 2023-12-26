@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- dev-namespace.yaml
+- dev-deployment-produtor.yaml
+- dev-deployment-consumidor.yaml
+- dev-deployment-pod-test.yaml
+- dev-deployment-pod-test-2.yaml

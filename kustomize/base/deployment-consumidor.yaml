@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-pod-consumidor
+  namespace: project-final
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pod-consumidor
+  template:
+    metadata:
+      labels:
+        app: pod-consumidor
+    spec:
+      containers:
+      - name: read
+        image: lu15c05ta/read:1.0
