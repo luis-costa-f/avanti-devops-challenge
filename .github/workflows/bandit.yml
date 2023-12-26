@@ -27,4 +27,5 @@ jobs:
         pip install bandit
 
     - name: Run Bandit and save output to file
-      run: bandit -r . > bandit_output.txt
+      run: bandit -r . | tee bandit_output.txt
+    
