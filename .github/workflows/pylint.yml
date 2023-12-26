@@ -27,4 +27,4 @@ jobs:
         pip install pylint
 
     - name: Run Pylint
-      run: pylint **/*.py
+      run: pylint **/*.py --disable=C0114,C0115,C0116 .

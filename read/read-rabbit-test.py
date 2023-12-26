@@ -24,3 +24,4 @@ def test_divisao():
 def test_potencia():
     resultado = 2 ** 3
     assert resultado == 8
+    
