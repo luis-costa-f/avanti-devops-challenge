@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# pylint: disable=C0303,E0401
 
 """
 Module: write
