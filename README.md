@@ -1,21 +1,21 @@
 # avanti-devops-challenge
 
 
-1. Criar o Dockerfile da App ✅ <br>
-1.1 Instalar os requisitos para a app funcionar (requirements.txt) ✅
+✅ 1. Criar o Dockerfile da App  <br>
+✅ 1.1 Instalar os requisitos para a app funcionar (requirements.txt) 
 
-2. Criar um cluster k8s com 2 nós<br>
-2.1 2 Nós<br>✅
-2.2 Instalar algum tipo de dashboard (rancher, k8s dashboard, etc)<br>✅
+✅ 2. Criar um cluster k8s com 2 nós<br>
+✅ 2.1 2 Nós<br>
+✅ 2.2 Instalar algum tipo de dashboard (rancher, k8s dashboard, etc)<br>
 
-3. Criar os manifestos do Kubernetes<br>
-3.1. Prever ambiente de Dev e Prod (kustomize)<br>
-3.2. Deployment(executar a cada 1 minuto) para gerar mensagens na fila<br>
-3.3. Parâmetros:<br>
-3.3.1. Nome (configMap)<br>
-3.3.2. Timer (configMap)<br>
-3.3.3. Mensagem (secret)<br>
-3.3.4. URL (secret)<br>
+✅ 3. Criar os manifestos do Kubernetes<br>
+✅ 3.1. Prever ambiente de Dev e Prod (kustomize)<br>
+❌ 3.2. Deployment(executar a cada 1 minuto) para gerar mensagens na fila<br>
+❌ 3.3. Parâmetros:<br> 
+❌ 3.3.1. Nome (configMap)<br> 
+❌ 3.3.2. Timer (configMap)<br> 
+❌ 3.3.3. Mensagem (secret)<br> 
+❌ 3.3.4. URL (secret)<br> 
 
 4. Pipeline<br>
 4.1. CI (Github Actions)<br>
@@ -36,7 +36,7 @@
 
 ----------------------------
 
-1.
+1. pedir a instalação do homebrew
 2. para rodar o _project-final.yaml tem criar um cluster 
 para isso tem que instalar o k3d e rodar o comando k3d cluster create nome-cluster
 
@@ -58,7 +58,18 @@ cole o token
 
 
 
+kustomizer: fazer a descrição pela instalado do homebrew 
+- comando para gerar os yaml 
 
+    - kubectl apply -k base
+    - kubectl apply -k overlays/dev
+    - kubectl apply -k overlays/prod
+
+
+
+
+pipelines
+ - instalar o act via homebrew
 
 
 
