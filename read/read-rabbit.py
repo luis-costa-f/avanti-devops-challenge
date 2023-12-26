@@ -28,7 +28,7 @@ channel.queue_declare(queue=RABBITMQ_QUEUE)
 
 def callback(ch, method, properties, body):
     print(" [x] Received %r" % body)
-    time.sleep(randrange(0, 2))
+    time.sleep(2)
     print(" [x] Done")
     ch.basic_ack(delivery_tag = method.delivery_tag)
 

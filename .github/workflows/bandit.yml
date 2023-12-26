@@ -26,8 +26,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install bandit
 
-    - name: Run Bandit and print summary
-      run: |
-        bandit -r .
-        bandit --format txt -r . | grep "Run metrics:" -A 5
+    - name: Run Bandit and save output to file
+      run: bandit -r . | tee bandit_output.txt
     
