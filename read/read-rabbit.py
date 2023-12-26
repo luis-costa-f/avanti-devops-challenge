@@ -1,5 +1,10 @@
 #!/usr/bin/python
 
+"""
+module: Read
+este arquivo faz a leitura de informações em uma sala do rabbitmq
+"""
+
 import os
 import time
 from random import randrange
@@ -9,10 +14,10 @@ from dotenv import load_dotenv
 
 load_dotenv(verbose=True)
 
-RABBITMQ_URL      = os.getenv('RABBITMQ_URL')
+RABBITMQ_URL = os.getenv('RABBITMQ_URL')
 RABBITMQ_USERNAME = os.getenv('RABBITMQ_USERNAME')
 RABBITMQ_PASSWORD = os.getenv('RABBITMQ_PASSWORD')
-RABBITMQ_QUEUE    = os.getenv('RABBITMQ_QUEUE')
+RABBITMQ_QUEUE = os.getenv('RABBITMQ_QUEUE')
 RABBITMQ_PREFETCH = int(os.getenv('RABBITMQ_PREFETCH'))
 
 connection = pika.BlockingConnection(

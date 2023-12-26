@@ -1,0 +1,15 @@
+[MASTER]
+
+[MESSAGES CONTROL]
+# Desativa a verificação de nome inválido (invalid-name)
+disable=invalid-name
+
+[FORMAT]
+
+[BASIC]
+# Ativa a verificação do final da linha
+extension-pkg-whitelist=pika,dotenv
+
+[SIMILARITIES]
+# Desativa a verificação de código duplicado
+disable=duplicate-code
