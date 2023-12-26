@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
 """
-module: Write
-este arquivo faz a escrita de mensagens em uma sala do rabbitmq
+Module: write
+Este arquivo faz a escrita de mensagens em uma fila do RabbitMQ.
 """
 
 import os
@@ -24,10 +24,10 @@ TIMER = int(os.getenv('TIMER'))
 print(f"Sending message to queue {RABBITMQ_QUEUE} in {RABBITMQ_URL} every {TIMER} seconds\n")
 
 connection = pika.BlockingConnection(
-  pika.ConnectionParameters(
-    host=RABBITMQ_URL,
-    credentials=pika.PlainCredentials(RABBITMQ_USERNAME, RABBITMQ_PASSWORD)
-  )
+    pika.ConnectionParameters(
+        host=RABBITMQ_URL,
+        credentials=pika.PlainCredentials(RABBITMQ_USERNAME, RABBITMQ_PASSWORD)
+    )
 )
 
 channel = connection.channel()
@@ -35,15 +35,15 @@ channel = connection.channel()
 channel.queue_declare(queue=RABBITMQ_QUEUE)
 
 try:
-  while True:
-    time.sleep(TIMER)
+    while True:
+        time.sleep(TIMER)
 
-    ts = time.time()
-    message_body = f'App: {APP_NAME}\nTimestamp: {ts}\nMessage: {lorem.sentence()}'
+        ts = time.time()
+        message_body = f'App: {APP_NAME}\nTimestamp: {ts}\nMessage: {lorem.sentence()}'
 
-    channel.basic_publish(exchange='', routing_key=RABBITMQ_QUEUE, body=message_body)
+        channel.basic_publish(exchange='', routing_key=RABBITMQ_QUEUE, body=message_body)
 
-    print(f"--------------------\nMessage Sent:\n\n{message_body}\n")
+        print(f"--------------------\nMessage Sent:\n\n{message_body}\n")
 finally:
-  connection.close()
-  
+    connection.close()
+    
