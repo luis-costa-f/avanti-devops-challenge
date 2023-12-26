@@ -1,110 +1,157 @@
-# avanti-devops-challenge
+# Avanti DevOps Challenge
+
+Este repositório contém o desafio de DevOps da Avanti. O desafio envolve a criação de um ambiente Docker, um cluster Kubernetes, manifestos Kubernetes, e configurações para CI/CD, além de monitoramento utilizando Prometheus, Grafana e AlertManager.
 
 
-✅ 1. Criar o Dockerfile da App  <br>
-✅ 1.1 Instalar os requisitos para a app funcionar (requirements.txt) 
+# Resumo das atividades
+### 1. Docker e Requisitos
 
-✅ 2. Criar um cluster k8s com 2 nós<br>
-✅ 2.1 2 Nós<br>
-✅ 2.2 Instalar algum tipo de dashboard (rancher, k8s dashboard, etc)<br>
+- ✅ **Dockerfile e Requisitos:** 
+  - Crie o Dockerfile da aplicação.
+  - Instale os requisitos necessários para que a aplicação funcione (verifique o arquivo requirements.txt).
 
-✅ 3. Criar os manifestos do Kubernetes<br>
-✅ 3.1. Prever ambiente de Dev e Prod (kustomize)<br>
-❌ 3.2. Deployment(executar a cada 1 minuto) para gerar mensagens na fila<br>
-❌ 3.3. Parâmetros:<br> 
-❌ 3.3.1. Nome (configMap)<br> 
-❌ 3.3.2. Timer (configMap)<br> 
-❌ 3.3.3. Mensagem (secret)<br> 
-❌ 3.3.4. URL (secret)<br> 
+### 2. Cluster Kubernetes
 
-✅ 4. Pipeline<br>
-✅ 4.1. CI (Github Actions)<br>
-✅ 4.1.1. Checar segurança do código (bandit)<br>
-✅ 4.1.2. Checar qualidade do código (pyLint)<br>
-✅ 4.1.3. Rodar testes unitários (pyTest)<br>
-✅ 4.2. CD  (Github Actions / ArgoCD)<br>
-✅ 4.2.1. Gerar a imagem da aplicação (docker hub - imagem pública)<br>
-✅ 4.2.2. Deploy no K8S<br>
+- ✅ **Crie um cluster Kubernetes com 2 nós:**  
+- ✅ **Instale um dashboard** (Use ferramentas como Rancher, K8s Dashboard, etc.)
 
-5. Monitoramento (Prometheus / Grafana / AlertManager)<br>
-5.1. Saúde da aplicação<br>
-5.2. Saúde do RabbitMQ<br>
+### 3. Manifestos Kubernetes
 
+- ✅ **Crie os manifestos do Kubernetes:**
+  - Preveja ambientes de Dev e Prod usando Kustomize.
+  - ❌ **Deployment Agendado:** Execute a cada 1 minuto para gerar mensagens na fila.
+  - ❌ **Parâmetros:**
+    - ❌ **Nome:** ConfigMap
+    - ❌ **Timer:** ConfigMap
+    - ❌ **Mensagem:** Secret
+    - ❌ **URL:** Secret
 
+### 4. CI/CD - GitHub Actions / ArgoCD
 
+- ✅ **Pipeline CI:**
+  - Cheque segurança do código (bandit).
+  - Cheque qualidade do código (pyLint).
+  - Rode testes unitários (pyTest).
+- ✅ **Pipeline CD:**
+  - Gere a imagem da aplicação (Docker Hub - imagem pública).
+  - Faça o deploy no Kubernetes.
 
+### 5. Monitoramento (Prometheus / Grafana / AlertManager)
 
-----------------------------
-
-1. pedir a instalação do homebrew
-2. para rodar o _project-final.yaml tem criar um cluster 
-para isso tem que instalar o k3d e rodar o comando k3d cluster create nome-cluster
-
-- execute esse comando para dar inicio ao dashboard "kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml"
-
-execute o service "kubernetes-dashboard.yaml"
-
-use o comando "kubectl -n kubernetes-dashboard create token admin-user" para obter
-a chave de acesso do dashboard
+- ❌ **Monitoramento:**
+  - ❌ **Saúde da aplicação.**
+  - ❌ **Saúde do RabbitMQ.**
 
 
-e execute o comando "kubectl proxy" executar o dashboard 
+# Passos para Configuração 
 
-no endereço "http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/login"
-
-cole o token
+## Como Iniciar
 
 
+1. **Docker e Requisitos:**
+    - É necessário a instalação do [Docker](https://docs.docker.com/desktop/install/windows-install/). <br>
+    Neste projeto temos duas pastas onde encontramos os arquivos que foram usado para gerar as imagens
+    para a criação do _project-final.yaml para rodar no kubernetes, os arquivos principais são:
+        - write/write-rabbit.py
+        - read/read-rabbit.py
 
+    **Como testar a execução:**
+    - abra um terminal e execute o rabbitmq 
+        ```bash 
+            docker run -d --hostname rabbit --name rabbit -p 8080:15672 -p 5672:5672 -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password rabbitmq:3-management    
+        ```
+    - no mesmo terminal entre na pasta "write" e execute o Dockerfile para gerar a imagem, e execute a imagem no modo iterativo para ver a execução do projeto
+        ```bash 
+            cd write/
+            docker build -t write .
+            docker run -it write
+        ```
+    - abra outro terminal entre na pasta "read" e execute o Dockerfile para gerar a imagem, e execute a imagem no modo iterativo para ver a execução do projeto
+        ```bash 
+            cd read/
+            docker build -t read .
+            docker run -it read
+        ```
 
+    - o arquivo write vai escreve algumas mensagens e vai ser passada pelo rabbitmq e o arquivo read vai escutar as mensagens
+    - para ver mais informações pode acessar o localhost:8080 e entrar com o usuario: user e o senha:password para ver a aplicação se comunicando 
+    
+    o resultado seria mensagens no console 
 
-kustomizer: fazer a descrição pela instalado do homebrew 
-- comando para gerar os yaml 
+    ![container conversando](.images/docker-comunicacao-write-with-read.png)
 
-    - kubectl apply -k base
-    - kubectl apply -k overlays/dev
-    - kubectl apply -k overlays/prod
+    e no rabbitmq tem que aparecer dois socket conectados 
 
+    ![rabbitmq](.images/rabbitmq-rodando-com-dois-sockets.png)
 
+    
 
+2. **Criar um cluster k8s com 2 nós**
+    - É necessario ter o [K3d](https://k3d.io/v5.6.0/#releases) instalado
+    - Utilize k3d e o comando `k3d cluster create nome-cluster`.
 
-pipelines
- - instalar o act via homebrew
+    - para esse exemplo temos que executar o arquivo `_project-final.yaml`
+    ```bash
+        kubectl create namespace project-final
+        kubectl apply -f _project-final.yaml
+    ```
 
+   - Execute o comando para iniciar o dashboard: 
+     ```bash
+     kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
+     ```
+   - Execute o serviço `kubernetes-dashboard.yaml`.
+    ```bash
+        kubectl apply -f kubernetes-dashboard.yaml
+    ```
+   - Use o comando esse comando para iniciar o dashboard.
+    ```bash
+      kubectl proxy
+    ```
 
+   - Acesse o dashboard pelo endereço [http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/login](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/login).
 
-para usar o argocd
+   - Será necessário um token, você pode executar em outro terminal o comando:
+    ```bash
+        kubectl -n kubernetes-dashboard create token admin-user
+    ```
 
-- kubectl create namespace argocd
-- kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-- kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+   - Cole o token.
+   - Depois é só navegar pelo Kubernetes-dashboard e procurar o namespace `project-final` e os seus pods
 
-- rode o comando "kubectl -n argocd get po,svc" procurr o service/argocd-repo-server
-- execute o comando com o nome do service/argocd-server "kubectl -n argocd port-forward service/argocd-server 8080:443"
+   ![kubernetes-dashboard](.images/kubernetes-dashboard.png)
 
-acesse o endereço localhost:8080 por padrão o user vem como "admin"
-- abra um novo terminal rode o comando "argocd admin initial-password -n argocd" para exibir a senha no terminal, esse comando so vai funcionar se o [argocd cli](https://argo-cd.readthedocs.io/en/stable/cli_installation/) estiver instalado 
+3. **Kustomizer:**
+   Para essa parte do projeto eu quebrei o arquivo `_project-final.yaml` na pasta kustomize,
+   dentro da pasta kustomize eu criei dois ambiente para demostrar a aplicação do kustomize, nesse caso eu alterei apenas o namespace de `project-final` no Base para `project-final-dev` no Overlays/dev e `project-final-prod` no Overlays/prod
+   
+   - Comandos para gerar os YAML:
+     ```bash
+     kubectl apply -k base
+     kubectl apply -k overlays/dev
+     kubectl apply -k overlays/prod
+     ```
 
-- clique em "new app"
-- em Application Name ponha o nome do projeto "Avanti"
-- em Project Name ponha default
-- na SOURCE ponha o endereço do repositorio "https://github.com/luisc05ta/avanti-devops-challenge.git"
-- Em revision escolha o "kustomize/base"
-- na aba DESTINATION coloque no "Cluster URL" o endereço sugerido pela ferramenta e o Namespace coloque "default"
-- por fim aperte em "Create"
+4. **Pipelines:**
+   Para demonstrar os pipelines eu criei uma pasta `.github/workflows/` para colocar os arquivos 
+      - bandit.yml
+      - pylint.yml
+      - pytest.yml
+   
+![GitHub Actions](.images/githubaction.png)
+
+**ArgoCD:**
+   - Execute os comandos:
+     ```bash
+     kubectl create namespace argocd
+     kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+     kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+     kubectl -n argocd get po,svc
+     kubectl -n argocd port-forward service/argocd-server 8080:443
+     ```
+   - Acesse [http://localhost:8080](http://localhost:8080) com usuário "admin" e senha obtida pelo comando `argocd admin initial-password -n argocd`.
 
 ![ArgoCD](.images/argocd.png)
-
-
-<br>
-minhas imagens 
-- https://hub.docker.com/repository/docker/lu15c05ta/write/general
-- https://hub.docker.com/repository/docker/lu15c05ta/read/general
-
-caso queira deletar as senhas e os services de do dashboart: => <br />
-"kubectl -n kubernetes-dashboard delete serviceaccount admin-user"<br />
-"kubectl -n kubernetes-dashboard delete clusterrolebinding admin-user"
-
-
-
-
+## Imagens Docker
+- [Write Image](https://hub.docker.com/repository/docker/lu15c05ta/write/general)
+- [Read Image](https://hub.docker.com/repository/docker/lu15c05ta/read/general)
